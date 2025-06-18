@@ -3,7 +3,7 @@ package com.example.library.entity
 import jakarta.persistence.*
 
 @Entity
-@Table
+@Table(name="authors")
 open class Author (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

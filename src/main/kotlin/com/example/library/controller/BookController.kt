@@ -13,16 +13,23 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/book")
-class BookController (private val repository: BookRepository){
+class BookController (
+    private val bookRepository: BookRepository,
+    private val authorRepository: AuthorRepository
+){
 
 
     @PostMapping
-    fun insertBook(@RequestBody book: BookDto): ResponseEntity<Any>{
+    fun insertBook(@RequestBody bookDto: BookDto): ResponseEntity<Any>{
 
-        val author=
+        val author=authorRepository.findById(bookDto.authorId).orElseThrow{RuntimeException("Autor não encontrado")}
+        val book= Book(id=0,title = bookDto.title, isbn = bookDto.isbn, price = bookDto.price, author = author)
+
+        val savedBook=bookRepository.save(book)
+        return  ResponseEntity.ok(savedBook)
     }
 
     @GetMapping
-    fun getAll():List<Book> = repository.findAll()
+    fun getAll():List<Book> = bookRepository.findAll()
 
 }
