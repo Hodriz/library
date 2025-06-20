@@ -6,5 +6,6 @@ data class BookDto (
     val title: String,
     val isbn: String,
     val price: BigDecimal,
-    val authorId: Long
+    val authorId: Long,
+    val publisherId: Long,
 )

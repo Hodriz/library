@@ -14,5 +14,8 @@ data class Book (
     val price:BigDecimal,
     @ManyToOne
     @JoinColumn(name = "id_author")
-    val author:Author
+    val author:Author,
+    @ManyToOne
+    @JoinColumn(name ="id_publisher")
+    val publisher: Publisher
 )
