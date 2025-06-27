@@ -5,9 +5,12 @@ import com.example.library.entity.Book
 import com.example.library.repository.AuthorRepository
 import com.example.library.repository.BookRepository
 import com.example.library.repository.PublisherRepository
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -41,5 +44,24 @@ class BookController (
 
     @GetMapping
     fun getAll():List<Book> = bookRepository.findAll()
+
+    @PutMapping("/id")
+    fun bookUpdate(@PathVariable id:Long, @RequestBody bookUpdate:Book): ResponseEntity<Any> {
+        val oldBook=bookRepository.findById(id)
+
+        return if (oldBook.isPresent){
+            val book=oldBook.get()
+            book.title=bookUpdate.title
+            book.publisher=bookUpdate.publisher
+            book.isbn=bookUpdate.isbn
+            book.price=bookUpdate.price
+            book.author=bookUpdate.author
+
+            val saved = bookRepository.save(book)
+            ResponseEntity.ok(saved)
+        }else{
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(mapOf("error" to "Livro com ID $id não encontrado."))
+        }
+    }
 
 }

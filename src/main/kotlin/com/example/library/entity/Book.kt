@@ -9,13 +9,13 @@ data class Book (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
-    val title: String,
-    val isbn: String,
-    val price:BigDecimal,
+    var title: String,
+    var isbn: String,
+    var price:BigDecimal,
     @ManyToOne
     @JoinColumn(name = "id_author")
-    val author:Author,
+    var author:Author,
     @ManyToOne
     @JoinColumn(name ="id_publisher")
-    val publisher: Publisher
+    var publisher: Publisher
 )
