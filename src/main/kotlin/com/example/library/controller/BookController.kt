@@ -7,6 +7,7 @@ import com.example.library.repository.BookRepository
 import com.example.library.repository.PublisherRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -61,6 +62,20 @@ class BookController (
             ResponseEntity.ok(saved)
         }else{
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(mapOf("error" to "Livro com ID $id não encontrado."))
+        }
+
+
+        }
+
+    @DeleteMapping("{/id}")
+    fun deleteBook(@PathVariable id:Long): Any {
+        val bookToRemove = bookRepository.findById(id)
+
+        return if (bookToRemove.isPresent) {
+            bookRepository.deleteById(id)
+            ResponseEntity.status(HttpStatus.NO_CONTENT)
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND)
         }
     }
 
