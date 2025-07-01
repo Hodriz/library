@@ -46,7 +46,7 @@ class BookController (
     @GetMapping
     fun getAll():List<Book> = bookRepository.findAll()
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     fun bookUpdate(@PathVariable id:Long, @RequestBody bookUpdate:Book): ResponseEntity<Any> {
         val oldBook=bookRepository.findById(id)
 
@@ -67,7 +67,7 @@ class BookController (
 
         }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     fun deleteBook(@PathVariable id:Long): Any {
         val bookToRemove = bookRepository.findById(id)
 
