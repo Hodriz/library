@@ -19,7 +19,7 @@ class AuthorController(private val repository: AuthorRepository) {
     fun insertAuthor(@RequestBody author:Author):Author = repository.save(author)
     @GetMapping
     fun getAll():List<Author> = repository.findAll()
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     fun findById(@PathVariable id:Long):Author =repository.findById(id).orElseThrow{ RuntimeException ("Autor não encontrado")}
 }
 
